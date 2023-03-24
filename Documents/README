@@ -1,0 +1,32 @@
+# Labyrinth
+
+## Checkpoint1
+
+## Current properties
+The program currently creates a window, generates a (half-done) labyrinth and draws the labyrinth.
+
+What properties have you already implemented into your project? What can be done with the program at this point?
+Nothing can really be done with the program at this point, it can only be started but you can not play yet.
+
+## Instructions
+
+ - Is it possible to run the program already? (yes/no)
+ Yes
+ - How is the program executed?
+ The program  first creates a "Labyrinth" named window, in where it then creates a widget. After this the "labyrint_generator"
+ function is called, where the (half-done) labyrinth is generated using Prim's algorithm. After this the labyrinth is drawn with
+ PyQt in the widget.
+
+## Schedule
+
+ - How much time have you spent making the project this far?
+ About 10 hours.
+ - Have you made changes to the schedule of your project plan?
+ Not anything specific, but I have realized it is more complicated than expected, so I will probably spend a lot more time than planned.
+
+## Other
+
+ - Have you faced any specific problems?
+ A few with the PyQt, but I got them fixed.
+ - Have you had to make changes to your plan?
+ I will probably do the easier version and not the medium.
