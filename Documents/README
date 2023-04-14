@@ -3,30 +3,34 @@
 ## Checkpoint1
 
 ## Current properties
-The program currently creates a window, generates a (half-done) labyrinth and draws the labyrinth.
+The program creates a window, and draws a labyrinth with the Recursive Backtracker Algorithm. The program also creates a
+player as a red dot and a button for solving the labyrinth. I have also implemented a test function to check if the labyrinth
+is made correctly.
 
 What properties have you already implemented into your project? What can be done with the program at this point?
-Nothing can really be done with the program at this point, it can only be started but you can not play yet.
+You can kind of play the game already, you can move the player with your computer keys to solve the labyrinth, but when
+you solve it, an error occurs. There is a button for solving the labyrinth but I have not gotten it to work yet.
 
 ## Instructions
 
  - Is it possible to run the program already? (yes/no)
  Yes
  - How is the program executed?
- The program  first creates a "Labyrinth" named window, in where it then creates a widget. After this the "labyrint_generator"
- function is called, where the (half-done) labyrinth is generated using Prim's algorithm. After this the labyrinth is drawn with
- PyQt in the widget.
+ The program  first creates a "Labyrinth" named window, in where it then creates a widget. After this the "GenerateLabyrinth"
+ file is called, where the labyrinth is generated using the Recursive Backtracker Algorithm. After this the labyrinth, a
+ button and a player is drawn with PyQt in the widget.
 
 ## Schedule
 
  - How much time have you spent making the project this far?
- About 10 hours.
+ No idea really, but many, maybe about 30 hours.
  - Have you made changes to the schedule of your project plan?
  Not anything specific, but I have realized it is more complicated than expected, so I will probably spend a lot more time than planned.
 
 ## Other
 
  - Have you faced any specific problems?
- A few with the PyQt, but I got them fixed.
+ A few yes. I still can not get the button to work correctly to show the way out of the labyrinth. I also have not been
+ able to make my labyrinth 3D yet, even thought I have tried.
  - Have you had to make changes to your plan?
  I will probably do the easier version and not the medium.
