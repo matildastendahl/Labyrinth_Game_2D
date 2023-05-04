@@ -1,4 +1,4 @@
-from PyQt6.QtWidgets import QGraphicsScene, QMessageBox, QGraphicsRectItem, QGraphicsEllipseItem, QPushButton, \
+from PyQt6.QtWidgets import QGraphicsScene, QMessageBox, QGraphicsLineItem, QGraphicsRectItem, QGraphicsEllipseItem, QPushButton, \
     QVBoxLayout, QWidget
 from PyQt6.QtGui import QBrush, QColor, QPen
 from PyQt6.QtCore import Qt
@@ -16,6 +16,11 @@ class Scene(QGraphicsScene):
         self.draw_labyrinth()
         self.draw_player()
         self.update_player_position()
+        self.start = self.labyrinth.grid[self.labyrinth.rows//2][self.labyrinth.columns//2]
+        self.end = self.labyrinth.grid[-1][-1]
+        self.visited = set()
+        self.path = []
+
 
         # Add "help" button
         self.button = QPushButton("Help! Show the way out")
@@ -56,7 +61,7 @@ class Scene(QGraphicsScene):
     def draw_player(self):
         x = self.player.column * self.cell_size
         y = self.player.row * self.cell_size
-        rect_item = QGraphicsRectItem(x, y, self.cell_size, self.cell_size)
+        rect_item = QGraphicsEllipseItem(x, y, self.cell_size, self.cell_size)
         rect_item.setPen(QPen(QColor(0, 0, 0), 5))
         rect_item.setBrush(QBrush(QColor(255, 0, 0)))
         self.addItem(rect_item)
@@ -75,14 +80,14 @@ class Scene(QGraphicsScene):
             if not self.labyrinth.grid[self.player.row][self.player.column].walls[3]:
                 self.player.column -= 1
         if self.player.row == self.labyrinth.rows - 1 and self.player.column == self.labyrinth.columns - 1:
-            QMessageBox.information(self, "Congratulations", "You solved the game!")
+            QMessageBox.information(self.parent(), "Congratulations", "You solved the game!")
 
         self.update_player_position()
 
     def update_player_position(self):
         # Remove old player position
         for item in self.items():
-            if isinstance(item, QGraphicsRectItem) and item.brush().color() == QColor(255, 0, 0):
+            if isinstance(item, QGraphicsEllipseItem) and item.brush().color() == QColor(Qt.GlobalColor.red):
                 self.removeItem(item)
                 break
 
@@ -97,39 +102,48 @@ class Scene(QGraphicsScene):
     def get_player_position(self):
         return self.player.row, self.player.column
 
+
     def show_way_out(self):
-        # Find the right way out from the player's current position
-        print("Works")
-        current_cell = self.labyrinth.grid[self.player.row][self.player.column]
-        visited = set()
-        path = []
+        print("show_way_out called")
+        for row in self.labyrinth.grid:
+            for cell in row:
+                cell.visited = False
+        if self.dfs(self.start):
+            print("Found path to end")
+            # Highlight the path from the player's current position to the exit
+            for cell in self.path:
+                x = cell.column * self.cell_size
+                y = cell.row * self.cell_size
+                circle = QGraphicsEllipseItem(x + 5, y + 5, self.cell_size - 10, self.cell_size - 10)
+                circle.setPen(QPen(QColor(255, 0, 0), 2))
+                circle.setBrush(QBrush(Qt.GlobalColor.transparent))
+                self.addItem(circle)
 
-        def dfs(cell):
-            print(f"Visiting cell {cell.row}, {cell.column}")
-            visited.add(cell)
-            if cell == self.labyrinth.grid[-1][-1]:
-                return True
-            for neighbor in self.labyrinth.get_unvisited_neighbors(cell):
-                if neighbor not in visited:
-                    if dfs(neighbor):
-                        path.append(cell)
-                        return True
-            print(f"No path found from cell {cell.row}, {cell.column}")
-            if path and path[-1] == cell:
-                path.remove(cell)
-            return False
+            return list(reversed(self.path))
 
-        dfs(current_cell)
-        print(visited)
+    def dfs(self, cell):
+        print(f"Current cell: {cell}")
+        neighbors = self.labyrinth.get_neighbors(cell)
+        print(f"Unvisited neighbors: {neighbors}")
+        if cell == self.end:
+            # we have found the end cell, so return True
+            self.path.append(cell)
+            return True
 
-        # Highlight the path from the player's current position to the exit
-        pen = QPen(QColor(0, 255, 0), 5)
-        for cell in path:
-            x = cell.column * self.cell_size
-            y = cell.row * self.cell_size
-            rect_item = QGraphicsRectItem(x, y, self.cell_size, self.cell_size)
-            rect_item.setPen(pen)
-            rect_item.setBrush(QBrush(QColor(0, 0, 0, 0)))
-            self.addItem(rect_item)
+        # mark the current cell as visited
+        self.visited.add(cell)
+        print(f"Visited: {self.visited}")
 
-        print(path)
+        # loop through the adjacent cells
+        for neighbor in self.labyrinth.get_neighbors(cell):
+            print(cell, self.end, self.visited, self.path)
+            if neighbor not in self.visited:
+                self.path.append(neighbor)
+                if self.dfs(neighbor):
+                    print(f"Found path to end: {self.path}")
+                    return True
+                self.path.pop()
+                print(f"Path: {self.path}")
+        return False
+
+
