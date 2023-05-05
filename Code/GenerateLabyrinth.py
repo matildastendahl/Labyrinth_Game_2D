@@ -52,26 +52,20 @@ class GenerateLabyrinth:
 
         return neighbors
 
+
     def get_neighbors(self, cell):
         neighbors = []
-        row = cell.row
-        column = cell.column
-
-        if row >= 1 and not self.grid[row - 1][column].visited and not self.grid[row][column].walls[0]:  # up
-            neighbors.append(self.grid[row - 1][column])
-
-        if row < self.rows - 1 and not self.grid[row + 1][column].visited and not self.grid[row][column].walls[
-            1]:  # down
-            neighbors.append(self.grid[row + 1][column])
-
-        if column > 0 and not self.grid[row][column - 1].visited and not self.grid[row][column].walls[2]:  # left
-            neighbors.append(self.grid[row][column - 1])
-
-        if column < self.columns - 1 and not self.grid[row][column + 1].visited and not self.grid[row][column].walls[
-            3]:  # right
-            neighbors.append(self.grid[row][column + 1])
-        print(f"Unvisited neighbors: {neighbors}")
+        row, col = cell.row, cell.column
+        if row > 0 and not cell.walls[0]:  # Check top neighbor and wall
+            neighbors.append(self.grid[row - 1][col])
+        if col < self.columns - 1 and not cell.walls[1]:  # Check right neighbor and wall
+            neighbors.append(self.grid[row][col + 1])
+        if row < self.rows - 1 and not cell.walls[2]:  # Check bottom neighbor and wall
+            neighbors.append(self.grid[row + 1][col])
+        if col > 0 and not cell.walls[3]:  # Check left neighbor and wall
+            neighbors.append(self.grid[row][col - 1])
         return neighbors
+
 
     def remove_wall(self, cell1, cell2):
         if cell1.row == cell2.row and cell1.column < cell2.column:  # right
