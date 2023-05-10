@@ -26,13 +26,8 @@ class Scene(QGraphicsScene):
         self.button = QPushButton("Help! Show the way out")
         self.button.clicked.connect(self.buttonclicked)
 
-        # Add "New Game" button
-        self.new_game_button = QPushButton("New Game")
-        self.new_game_button.clicked.connect(self.start_new_game)
-
         layout = QVBoxLayout()
         layout.addWidget(self.button)
-        layout.addWidget(self.new_game_button)
         self.widget = QWidget()
         self.widget.setGeometry(-220, 350, 100, 10)
         self.widget.setLayout(layout)
@@ -87,12 +82,11 @@ class Scene(QGraphicsScene):
         self.draw_labyrinth()
         self.draw_player()
         self.update_player_position()
-        self.start = self.labyrinth.grid[self.labyrinth.rows//2][self.labyrinth.columns//2]
+        self.start = self.labyrinth.grid[self.labyrinth.rows // 2][self.labyrinth.columns // 2]
         self.end = self.labyrinth.grid[-1][-1]
         self.visited = set()
         self.path = []
         self.path_items = []
-
 
     def keyPressEvent(self, event):
         if event.key() == Qt.Key.Key_Up:
@@ -108,8 +102,11 @@ class Scene(QGraphicsScene):
             if not self.labyrinth.grid[self.player.row][self.player.column].walls[3]:
                 self.player.column -= 1
         if self.player.row == self.labyrinth.rows - 1 and self.player.column == self.labyrinth.columns - 1:
-            reply = QMessageBox.question(self.parent(), "Congratulations", "You won the game! Do you want to play again?",
-                                         QMessageBox.StandardButton.Yes)
+            message = QMessageBox(self.parent())
+            message.setWindowTitle("Congratulations")
+            message.setText("You won the game! Do you want to play again?")
+            message.setStandardButtons(QMessageBox.StandardButton.Yes)
+            reply = message.exec()
             if reply == QMessageBox.StandardButton.Yes:
                 self.start_new_game()
         self.update_player_position()
