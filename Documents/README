@@ -1,36 +1,26 @@
 # Labyrinth
 
-## Checkpoint1
+## Introduction
+My project is a labyrinth game. It generates and draws a labyrinth using PyQt6, and allows the the player to navigate
+through it using the arrow keys. The goal of the game is to reach the exit of the labyrinth.
 
-## Current properties
-The program creates a window, and draws a labyrinth with the Recursive Backtracker Algorithm. The program also creates a
-player as a red dot and a button for solving the labyrinth. I have also implemented a test function to check if the labyrinth
-is made correctly.
 
-What properties have you already implemented into your project? What can be done with the program at this point?
-You can kind of play the game already, you can move the player with your computer keys to solve the labyrinth, but when
-you solve it, an error occurs. There is a button for solving the labyrinth but I have not gotten it to work yet.
+## File and directory structure
+- The project includes five files:
+1. GenerateLabyrinth: Generatelabyrinth class. Generates the labyrinth with Depth-First search recursive backtracker algorithm.
+2. DrawLabyrinthPyQt: Scene class. Draws the labyrinth using PyQt6 and handles the user input using keyPressEvent.
+3. Player: Creates the player and keeps track of its position.
+4. Cell: Creates the cells of which the labyrinth is concluded of.
 
-## Instructions
 
- - Is it possible to run the program already? (yes/no)
- Yes
- - How is the program executed?
- The program  first creates a "Labyrinth" named window, in where it then creates a widget. After this the "GenerateLabyrinth"
- file is called, where the labyrinth is generated using the Recursive Backtracker Algorithm. After this the labyrinth, a
- button and a player is drawn with PyQt in the widget.
+## Installation instructions
 
-## Schedule
+- The code relies on PyQt6, so you need to have PyQt6 installed to run it.
+- If you haven't installed PyQt6, you can install it using the following command: pip install PyQt6.
 
- - How much time have you spent making the project this far?
- No idea really, but many, maybe about 30 hours.
- - Have you made changes to the schedule of your project plan?
- Not anything specific, but I have realized it is more complicated than expected, so I will probably spend a lot more time than planned.
+## User instructions
 
-## Other
-
- - Have you faced any specific problems?
- A few yes. I still can not get the button to work correctly to show the way out of the labyrinth. I also have not been
- able to make my labyrinth 3D yet, even thought I have tried.
- - Have you had to make changes to your plan?
- I will probably do the easier version and not the medium.
+- To execute the program, run the Python script containing the code.
+- The labyrinth will be displayed in a graphical window.
+- Use the arrow keys on your keyboard to navigate the player through the labyrinth.
+- When the player reaches the exit of the labyrinth, a message box will appear, asking if you want to play again.
