@@ -88,7 +88,7 @@ class GenerateLabyrinth:
 if __name__ == '__main__':
     app = QApplication(sys.argv)
 
-    labyrinth_generator = GenerateLabyrinth(15, 20)
+    labyrinth_generator = GenerateLabyrinth(10, 15)
     labyrinth_generator.generate()
 
     scene = Scene(labyrinth_generator)
